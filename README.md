@@ -2,7 +2,8 @@
 A simple weather application whose purpose is to teach me how to use web services in Android Development.
 
 ## Plan ##  
-- [x] Begin Project  
+- [x] Begin Project 
+- [x] Create a polished README file
 - [ ] Simple UI  
 - [ ] OpenWeatherMap web service integration  
 - [ ] Extra features to allow user more options in choosing city  
