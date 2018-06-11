@@ -4,9 +4,10 @@ A simple weather application whose purpose is to teach me how to use web service
 ## Plan ##  
 - [x] Begin Project 
 - [x] Create a polished README file
-- [ ] Simple UI  
-- [ ] OpenWeatherMap web service integration  
-- [ ] Extra features to allow user more options in choosing city  
+- [x] Simple UI  
+- [x] OpenWeatherMap web service integration  
+- [ ] Extra features to allow user more options in choosing city 
+- [ ] Scroll side to side to see different days of weather
 - [ ] UI improvements
 
 ## Created by ##  
