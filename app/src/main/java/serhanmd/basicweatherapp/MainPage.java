@@ -92,7 +92,7 @@ public class MainPage extends AppCompatActivity {
                     try {
                         extract1 = data.getString("main").substring(data.getString("main").indexOf("\"temp")+7,data.getString("main").indexOf("\"temp")+13);
                         temperature = Double.parseDouble(extract1);
-                        temp = (int) temperature;
+                        temp = (int) (temperature - 273.15) ;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -119,7 +119,7 @@ public class MainPage extends AppCompatActivity {
                 if (data != null) {
                     Log.d(TAG, data.toString());
                     String convert = Integer.toString(temp);
-                    changeTemp.setText(convert);
+                    changeTemp.setText(convert + " " + (char) 0x00B0+"C");
                     Log.d(TAG,convert);
                 }
 
