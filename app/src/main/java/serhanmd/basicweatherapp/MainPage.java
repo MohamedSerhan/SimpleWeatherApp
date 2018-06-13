@@ -1,8 +1,6 @@
 package serhanmd.basicweatherapp;
 
 //Imports
-
-
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -37,13 +35,13 @@ public class MainPage extends AppCompatActivity {
     */
 
     //Variables
-    //ArrayList<String> numberList = new ArrayList<>();
     public static final String TAG = "MoLog:";
     private final String url = "http://api.openweathermap.org/data/2.5/weather?id=285570&appid=361e3863fb571305e306d4be3472954b";
     JSONObject data = null;
     int temp = 0;
     TextView changeTemp;
 
+    //Executes the getJson command as soon as the app activity is created
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +52,7 @@ public class MainPage extends AppCompatActivity {
 
     }
 
+    //Reads the URL and extracts the JSON file to a local variable
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getJSON(final String city) {
 
@@ -114,6 +113,7 @@ public class MainPage extends AppCompatActivity {
                 return null;
             }
 
+            //Prints the data extracted to the app
             @Override
             protected void onPostExecute(Void Void) {
                 if (data != null) {
