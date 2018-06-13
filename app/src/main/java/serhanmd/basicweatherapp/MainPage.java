@@ -41,13 +41,14 @@ public class MainPage extends AppCompatActivity {
     int temp = 0;
     TextView changeTemp;
 
-    //Executes the getJson command as soon as the app activity is created
+    //Executes whatever when the activity is created
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         changeTemp = findViewById(R.id.tempValue);
+        //Executes getJson method, which can get data from any city depending on the name
         getJSON("Kuwait City");
 
     }
@@ -65,28 +66,32 @@ public class MainPage extends AppCompatActivity {
 
             }
 
+            //Accesses URL to prepare for data extraction
             @Override
             protected Void doInBackground(Void... params) {
                 try {
+                    //Prepares URL
                     URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=361e3863fb571305e306d4be3472954b");
-
+                    //Sets up a connection
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
+                    //Prepares to read JSON
                     BufferedReader reader =
                             new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
                     StringBuffer json = new StringBuffer(1024);
                     String tmp = "";
 
+                    //Reads file and saves the data to json until all of it is included
                     while ((tmp = reader.readLine()) != null)
                         json.append(tmp).append("\n");
                     reader.close();
 
+                    //Saves the data in a workable variable called data
                     data = new JSONObject(json.toString());
                     Log.i(TAG,"attempted to get data");
 
+                    //Extracts specific data from the JSON file that is required to be displayed
                     String extract1;
-                    //String extract2 = "";
                     double temperature = 0.0;
                     try {
                         extract1 = data.getString("main").substring(data.getString("main").indexOf("\"temp")+7,data.getString("main").indexOf("\"temp")+13);
@@ -98,6 +103,7 @@ public class MainPage extends AppCompatActivity {
                     Log.i(TAG,"got data");
                     Log.i(TAG,""+temp);
 
+                    //If the data is faulty the program will stop
                     if (data.getInt("cod") != 200) {
                         System.out.println("Cancelled");
                         return null;
