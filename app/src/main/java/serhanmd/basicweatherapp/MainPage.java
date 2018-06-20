@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +38,9 @@ public class MainPage extends AppCompatActivity {
 
     //Variables
     public static final String TAG = "MoLog:";
-    private final String url = "http://api.openweathermap.org/data/2.5/weather?id=285570&appid=361e3863fb571305e306d4be3472954b";
     JSONObject data = null;
+    Gson gson = null;
+    WeatherData weatherData;
     int temp = 0;
     TextView changeTemp;
 
@@ -71,23 +74,26 @@ public class MainPage extends AppCompatActivity {
             protected Void doInBackground(Void... params) {
                 try {
                     //Prepares URL
+                    //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&APPID=361e3863fb571305e306d4be3472954b");
                     URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=361e3863fb571305e306d4be3472954b");
                     //Sets up a connection
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     //Prepares to read JSON
-                    BufferedReader reader =
-                            new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
                     StringBuffer json = new StringBuffer(1024);
                     String tmp = "";
+
 
                     //Reads file and saves the data to json until all of it is included
                     while ((tmp = reader.readLine()) != null)
                         json.append(tmp).append("\n");
                     reader.close();
 
+
                     //Saves the data in a workable variable called data
                     data = new JSONObject(json.toString());
+                    //weatherData = gson.fromJson(data.toString(),WeatherData.class);
                     Log.i(TAG,"attempted to get data");
 
                     //Extracts specific data from the JSON file that is required to be displayed
