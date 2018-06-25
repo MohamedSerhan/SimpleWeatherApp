@@ -9,136 +9,80 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import serhanmd.basicweatherapp.WeatherData.Data;
 
 public class MainPage extends AppCompatActivity {
 
-    /*
-    Kuwait's ID: 285570
-    TestKey: 361e3863fb571305e306d4be3472954b
-    api.openweathermap.org/data/2.5/weather?id=285570&appid=361e3863fb571305e306d4be3472954b
-
-
-        State of Kuwait
-
-    Weather Conditons: Dust
-    Temperture: 321.15 K
-    */
-
     //Variables
     public static final String TAG = "MoLog:";
-    JSONObject data = null;
-    Gson gson = null;
-    WeatherData weatherData;
-    int temp = 0;
     TextView changeTemp;
+    Data[] weather;
 
     //Executes whatever when the activity is created
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         changeTemp = findViewById(R.id.tempValue);
         //Executes getJson method, which can get data from any city depending on the name
-        getJSON("Kuwait City");
+        Log.i(TAG,"Process started!");
+        new JSONFeedArrayTask().execute();
 
     }
 
     //Reads the URL and extracts the JSON file to a local variable
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void getJSON(final String city) {
+    public class JSONFeedArrayTask extends AsyncTask<String, Void, String> {
 
-        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, Void> execute = new AsyncTask<Void, Void, Void>() {
+        @Override
+        protected String doInBackground(String... strings) {
 
+            try {
+                Log.i(TAG,"Initializing Variables...");
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url("http://api.openweathermap.org/data/2.5/forecast?q=Kuwait%20City&APPID=361e3863fb571305e306d4be3472954b")
+                        .build();
+                Log.i(TAG,"Connecting to website");
+                Response response = client.newCall(request).execute();
+                String result = response.body().string();
+                Log.d(TAG, result);
+                Log.i(TAG,"Generating Gson...");
+                Gson gson = new Gson();
+                Log.i(TAG,"Packing data into arrays step 1");
+                //Type collectionType = new TypeToken<Collection<Data>>() {}.getType();
+                Log.i(TAG,"Packing data into arrays step 2");
+               // Collection<Data> enums = gson.fromJson(result, collectionType);
+                Data data = gson.fromJson(result, Data.class);
+                Log.i(TAG,"Packing data into arrays step 3");
+                Log.d(TAG, ""+data.getCnt());
+                Log.i(TAG, "Process Complete!");
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-
+            } catch(IOException e) {
+                e.printStackTrace();
             }
 
-            //Accesses URL to prepare for data extraction
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    //Prepares URL
-                    //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&APPID=361e3863fb571305e306d4be3472954b");
-                    URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=361e3863fb571305e306d4be3472954b");
-                    //Sets up a connection
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    //Prepares to read JSON
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-                    StringBuffer json = new StringBuffer(1024);
-                    String tmp = "";
-
-
-                    //Reads file and saves the data to json until all of it is included
-                    while ((tmp = reader.readLine()) != null)
-                        json.append(tmp).append("\n");
-                    reader.close();
-
-
-                    //Saves the data in a workable variable called data
-                    data = new JSONObject(json.toString());
-                    //weatherData = gson.fromJson(data.toString(),WeatherData.class);
-                    Log.i(TAG,"attempted to get data");
-
-                    //Extracts specific data from the JSON file that is required to be displayed
-                    String extract1;
-                    double temperature = 0.0;
-                    try {
-                        extract1 = data.getString("main").substring(data.getString("main").indexOf("\"temp")+7,data.getString("main").indexOf("\"temp")+13);
-                        temperature = Double.parseDouble(extract1);
-                        temp = (int) (temperature - 273.15) ;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Log.i(TAG,"got data");
-                    Log.i(TAG,""+temp);
-
-                    //If the data is faulty the program will stop
-                    if (data.getInt("cod") != 200) {
-                        System.out.println("Cancelled");
-                        return null;
-                    }
-
-
-                } catch (Exception e) {
-
-                    System.out.println("Exception " + e.getMessage());
-                    return null;
-                }
-
-                return null;
-            }
-
-            //Prints the data extracted to the app
-            @Override
-            protected void onPostExecute(Void Void) {
-                if (data != null) {
-                    Log.d(TAG, data.toString());
-                    String convert = Integer.toString(temp);
-                    changeTemp.setText(convert + " " + (char) 0x00B0+"C");
-                    Log.d(TAG,convert);
-                }
-
-            }
-        }.execute();
-
-
+            return null;
+        }
     }
 
 }
