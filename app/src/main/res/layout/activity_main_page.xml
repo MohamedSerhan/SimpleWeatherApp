@@ -8,6 +8,45 @@
     tools:layout_editor_absoluteY="81dp">
 
     <TextView
+        android:id="@+id/condText"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="81dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="conditions..."
+        android:textColor="@android:color/black"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tempValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/icon" />
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date:"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintBaseline_toBaselineOf="@+id/dateValue"
+        app:layout_constraintEnd_toEndOf="@+id/descText" />
+
+    <TextView
+        android:id="@+id/dateValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="106dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dateText" />
+
+    <TextView
         android:id="@+id/cityName"
         android:layout_width="0dp"
         android:layout_height="64dp"
@@ -25,34 +64,57 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tempText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Temperature:"
-        android:textColor="@android:color/background_dark"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tempValue"
-        app:layout_constraintEnd_toStartOf="@+id/tempValue" />
-
-    <TextView
         android:id="@+id/tempValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="211dp"
+        android:layout_width="121dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="19dp"
+        android:gravity="center_vertical|center_horizontal"
         android:text="0"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
-        app:layout_constraintStart_toStartOf="@+id/icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/descValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="108dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="28dp"
-        android:layout_marginTop="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/tempValue"
+        android:layout_width="74dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cityName" />
+
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="133dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="23dp"
+        android:text="Refresh"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+
+    <TextView
+        android:id="@+id/descText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:text="Description:"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintBaseline_toBaselineOf="@+id/descValue"
+        app:layout_constraintEnd_toStartOf="@+id/tempValue" />
+
+    <TextView
+        android:id="@+id/descValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginStart="7dp"
+        android:text="0"
+        app:layout_constraintBottom_toTopOf="@+id/dateValue"
+        app:layout_constraintStart_toEndOf="@+id/descText" />
 </android.support.constraint.ConstraintLayout>
