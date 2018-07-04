@@ -28,6 +28,7 @@ import java.util.Date;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import serhanmd.basicweatherapp.Fragments.*;
 import serhanmd.basicweatherapp.WeatherData.Data;
 
 
@@ -43,10 +44,11 @@ public class MainPage extends AppCompatActivity {
     TextView descriptionTxt;
     TextView dateTxt;
     ImageView changeIcon;
-    TabLayout tabLayout;
     Button refresh;
-    Gson gson = new Gson();
-    Data data;
+    static Gson gson = new Gson();
+    static Data data;
+    private SectionsStatePagerAdapter mSectionStatePagerAdapter;
+    private ViewPager mViewPager;
 
     //Executes whatever when the activity is created
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,32 +57,36 @@ public class MainPage extends AppCompatActivity {
         //Starts the selected layout as the first page when app opens
         setContentView(R.layout.activity_main_page);
 
-        //Set these variables to the proper IDs of the views found on the app interface
-        changeTemp = findViewById(R.id.tempValue);
-        changeCondition = findViewById(R.id.condText);
-        changeIcon = findViewById(R.id.icon);
-        changeCity = findViewById(R.id.cityName);
-        changeDescription = findViewById(R.id.descValue);
-        changeDate = findViewById(R.id.dateValue);
-        descriptionTxt = findViewById(R.id.descText);
-        dateTxt = findViewById(R.id.dateText);
-        refresh = findViewById(R.id.refreshButton);
-        setViewVisibility(false);
+        mSectionStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
 
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new JSONFeedArrayTask().execute();
-            }
-        });
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        setupViewPager(mViewPager);
 
         Log.i(TAG,"Process started!");
 
-        new JSONFeedArrayTask().execute(); //This command allows the class to run and make URL requests without crashing
+        //new JSONFeedArrayTask().execute(); //This command allows the class to run and make URL requests without crashing
 
     }
 
-    //Sets all the views to visible for true and invisible for false
+
+    private void setupViewPager(ViewPager viewPager) {
+        SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new CurrentDay(), "Current Day");
+        adapter.addFragment(new NextDay1(), "Next Day 1");
+        adapter.addFragment(new NextDay2(), "Next Day 2");
+        adapter.addFragment(new NextDay3(), "Next Day 3");
+        adapter.addFragment(new NextDay4(), "Next Day 4");
+        viewPager.setAdapter(adapter);
+    }
+
+
+
+
+
+
+
+
+    /*//Sets all the views to visible for true and invisible for false
     public void setViewVisibility(boolean bool) {
         if(bool) {
             changeTemp.setVisibility(View.VISIBLE);
@@ -112,7 +118,7 @@ public class MainPage extends AppCompatActivity {
     }
 
     //Reads the URL and extracts the JSON file to a local variable, ONLY HARD CODED VALUE SO FAR
-    public class JSONFeedArrayTask extends AsyncTask<String, Void, String> {
+    public static class JSONFeedArrayTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... strings) {
@@ -152,8 +158,8 @@ public class MainPage extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            setDataToViews(0);
-            Toast.makeText(getApplicationContext(),"Weather Found", Toast.LENGTH_SHORT).show();
+            //setDataToViews(0);
+            //Toast.makeText(getApplicationContext(),"Weather Found", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -189,6 +195,6 @@ public class MainPage extends AppCompatActivity {
         String newDateStr = postFormater.format(dateObj);
 
         return newDateStr;
-    }
+    }*/
 
 }
