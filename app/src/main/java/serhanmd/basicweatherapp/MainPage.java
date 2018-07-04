@@ -3,13 +3,19 @@ package serhanmd.basicweatherapp;
 //Imports
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabItem;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.design.widget.TabLayout;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -37,6 +43,7 @@ public class MainPage extends AppCompatActivity {
     TextView descriptionTxt;
     TextView dateTxt;
     ImageView changeIcon;
+    TabLayout tabLayout;
     Button refresh;
     Gson gson = new Gson();
     Data data;
@@ -58,7 +65,6 @@ public class MainPage extends AppCompatActivity {
         descriptionTxt = findViewById(R.id.descText);
         dateTxt = findViewById(R.id.dateText);
         refresh = findViewById(R.id.refreshButton);
-
         setViewVisibility(false);
 
         refresh.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +79,7 @@ public class MainPage extends AppCompatActivity {
         new JSONFeedArrayTask().execute(); //This command allows the class to run and make URL requests without crashing
 
     }
+
     //Sets all the views to visible for true and invisible for false
     public void setViewVisibility(boolean bool) {
         if(bool) {
