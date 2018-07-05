@@ -35,7 +35,7 @@ import serhanmd.basicweatherapp.WeatherData.Data;
 public class MainPage extends AppCompatActivity {
 
     //Variables
-    public static final String TAG = "MoLog:";
+    private final String TAG = "MoLog:";
     TextView changeTemp;
     TextView changeCity;
     TextView changeCondition;
@@ -45,8 +45,8 @@ public class MainPage extends AppCompatActivity {
     TextView dateTxt;
     ImageView changeIcon;
     Button refresh;
-    static Gson gson = new Gson();
-    static Data data;
+//    static Gson gson = new Gson();
+//    static Data data;
     private SectionsStatePagerAdapter mSectionStatePagerAdapter;
     private ViewPager mViewPager;
 
@@ -56,18 +56,19 @@ public class MainPage extends AppCompatActivity {
 
         //Starts the selected layout as the first page when app opens
         setContentView(R.layout.activity_main_page);
-
+        new JSONArrayExtractor().execute(); //This command allows the class to run and make URL requests without crashing
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         mSectionStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
 
-        Log.i(TAG,"Process started!");
-
-        //new JSONFeedArrayTask().execute(); //This command allows the class to run and make URL requests without crashing
-
+        Log.i(TAG,"MainPage Started.");
+        Toast.makeText(getApplicationContext(),"Weather Found", Toast.LENGTH_SHORT).show();
     }
-
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
@@ -115,52 +116,6 @@ public class MainPage extends AppCompatActivity {
     //Changes 
     public void changeIconImage(String iconCode) {
         Picasso.get().load("http://openweathermap.org/img/w/" + iconCode + ".png").into(changeIcon);
-    }
-
-    //Reads the URL and extracts the JSON file to a local variable, ONLY HARD CODED VALUE SO FAR
-    public static class JSONFeedArrayTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            try {
-                Log.i(TAG,"Initializing Variables...");
-                OkHttpClient client = new OkHttpClient();
-                //Uses OkHttp to request access to the URL to read the data from OpenWeatherAPI website
-                Request request = new Request.Builder()
-                        .url("http://api.openweathermap.org/data/2.5/forecast?q=Kuwait%20City&APPID=361e3863fb571305e306d4be3472954b")
-                        .build();
-                Log.i(TAG,"Connecting to website");
-                //Accesses the website and saves the data
-                Response response = client.newCall(request).execute();
-                //Saves the JSON data file into a string
-                String result = response.body().string();
-                Log.d(TAG, result);
-                Log.i(TAG,"Generating Gson...");
-                Log.i(TAG,"Packing data into arrays step 1");
-                //Type collectionType = new TypeToken<Collection<Data>>() {}.getType();
-                Log.i(TAG,"Packing data into arrays step 2");
-                // Collection<Data> enums = gson.fromJson(result, collectionType);
-
-                //Turns the JSON String into a java object using GSON
-                data = gson.fromJson(result, Data.class);
-                Log.i(TAG,"Packing data into arrays step 3");
-
-                Log.i(TAG, "Process Complete!");
-
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            //setDataToViews(0);
-            //Toast.makeText(getApplicationContext(),"Weather Found", Toast.LENGTH_SHORT).show();
-        }
     }
 
     //Sets data to interface of APP

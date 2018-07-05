@@ -16,7 +16,7 @@ import serhanmd.basicweatherapp.MainPage;
 import serhanmd.basicweatherapp.R;
 
 public class NextDay1 extends Fragment {
-    private static final String TAG = "CurrentDay";
+    private final String TAG = "MoLog:";
     private TextView changeTemp;
     private TextView changeCity;
     private TextView changeCondition;
@@ -40,7 +40,7 @@ public class NextDay1 extends Fragment {
         descriptionTxt = view.findViewById(R.id.descText);
         dateTxt = view.findViewById(R.id.dateText);
         refresh = view.findViewById(R.id.refreshButton);
-        Log.d(TAG,"onCreateView: Stated.");
+        Log.d(TAG,"NextDay1 Started.");
 
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
