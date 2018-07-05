@@ -44,8 +44,8 @@ public class WeatherUtils {
     }
 
     public static String capitalizeEveryWord(String s) {
-        char[] charArr;// = new char[s.length()];
-        String newString = "";
+        char[] charArr;
+        String newString;
         if(s.length() > 1) {
             charArr = s.toCharArray();
             charArr[0] = Character.toUpperCase(charArr[0]);

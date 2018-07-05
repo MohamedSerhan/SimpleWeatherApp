@@ -46,9 +46,9 @@ public class CurrentDay extends Fragment {
         descriptionTxt = view.findViewById(R.id.descText);
         dateTxt = view.findViewById(R.id.dateText);
         refresh = view.findViewById(R.id.refreshButton);
-        Log.d(TAG,"CurrentDay: Found all views.");
+        Log.d(TAG,"CurrentDay: Found all views."); //CHANGE THIS
 
-        setDataToViews(0);
+        setDataToViews(0); //Change THIS
 
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,11 +63,11 @@ public class CurrentDay extends Fragment {
     //Sets data to interface of APP
     public void setDataToViews(int listNum) {
         data = receiveData();
-        Log.d(TAG,"Data Received");
+        //Log.d(TAG,"Data Received");
         int tmp = (int) data.getList().get(listNum).getMain().getTemp(); //HOW TO ACCESS THE DATA!!!!!!!!!!!!
-        Log.d(TAG,"Created new view");
+        //Log.d(TAG,"Created new view");
         changeCity.setText(data.getCity().getName());
-        Log.d(TAG,"Text Changed: "+changeCity.getText());
+        //Log.d(TAG,"Text Changed: "+changeCity.getText());
         Picasso.get().load("http://openweathermap.org/img/w/" + data.getList().get(listNum).getWeather().get(0).getIcon()  + ".png").into(changeIcon);
         changeCondition.setText(data.getList().get(listNum).getWeather().get(0).getMain());
         changeTemp.setText(""+tmp + " " + (char) 0x00B0+"C");

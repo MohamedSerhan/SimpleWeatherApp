@@ -12,11 +12,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import serhanmd.basicweatherapp.MainPage;
+import com.squareup.picasso.Picasso;
+
+import serhanmd.basicweatherapp.JSONArrayExtractor;
 import serhanmd.basicweatherapp.R;
+import serhanmd.basicweatherapp.WeatherData.Data;
+
+import static serhanmd.basicweatherapp.WeatherUtils.capitalizeEveryWord;
+import static serhanmd.basicweatherapp.WeatherUtils.formatDate;
+import static serhanmd.basicweatherapp.WeatherUtils.receiveData;
 
 public class NextDay4 extends Fragment {
-    private static final String TAG = "CurrentDay";
+    private final String TAG = "MoLog:";
     private TextView changeTemp;
     private TextView changeCity;
     private TextView changeCondition;
@@ -26,12 +33,14 @@ public class NextDay4 extends Fragment {
     private TextView dateTxt;
     private ImageView changeIcon;
     private Button refresh;
+    private Data data;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.next_day_4, container, false);
-        changeTemp = view.findViewById(R.id.tempValue);
+        Log.d(TAG,"NextDay4 Started."); //CHANGE THIS
+        View view = inflater.inflate(R.layout.current_day_layout, container, false);
+        changeTemp =  view.findViewById(R.id.tempValue);
         changeCondition = view.findViewById(R.id.condText);
         changeIcon = view.findViewById(R.id.icon);
         changeCity = view.findViewById(R.id.cityName);
@@ -40,15 +49,32 @@ public class NextDay4 extends Fragment {
         descriptionTxt = view.findViewById(R.id.descText);
         dateTxt = view.findViewById(R.id.dateText);
         refresh = view.findViewById(R.id.refreshButton);
-        Log.d(TAG,"onCreateView: Stated.");
+        Log.d(TAG,"NextDay4: Found all views."); //CHANGE THIS
+
+        setDataToViews(30); //Change THIS
 
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // new MainPage.JSONFeedArrayTask().execute();
+                new JSONArrayExtractor().execute();
             }
         });
 
         return view;
+    }
+
+    //Sets data to interface of APP
+    public void setDataToViews(int listNum) {
+        data = receiveData();
+        //Log.d(TAG,"Data Received");
+        int tmp = (int) data.getList().get(listNum).getMain().getTemp(); //HOW TO ACCESS THE DATA!!!!!!!!!!!!
+        //Log.d(TAG,"Created new view");
+        changeCity.setText(data.getCity().getName());
+        //Log.d(TAG,"Text Changed: "+changeCity.getText());
+        Picasso.get().load("http://openweathermap.org/img/w/" + data.getList().get(listNum).getWeather().get(0).getIcon()  + ".png").into(changeIcon);
+        changeCondition.setText(data.getList().get(listNum).getWeather().get(0).getMain());
+        changeTemp.setText(""+tmp + " " + (char) 0x00B0+"C");
+        changeDescription.setText(capitalizeEveryWord(data.getList().get(listNum).getWeather().get(0).getDescription()));
+        changeDate.setText(formatDate(data.getList().get(listNum).getDtTxt().substring(0,10)));
     }
 }
