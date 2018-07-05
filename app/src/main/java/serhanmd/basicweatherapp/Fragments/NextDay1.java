@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import serhanmd.basicweatherapp.MainPage;
 import serhanmd.basicweatherapp.R;
 
 public class NextDay1 extends Fragment {

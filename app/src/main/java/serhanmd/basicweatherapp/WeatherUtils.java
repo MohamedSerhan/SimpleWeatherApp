@@ -43,4 +43,26 @@ public class WeatherUtils {
         return data;
     }
 
+    public static String capitalizeEveryWord(String s) {
+        char[] charArr;// = new char[s.length()];
+        String newString = "";
+        if(s.length() > 1) {
+            charArr = s.toCharArray();
+            charArr[0] = Character.toUpperCase(charArr[0]);
+                if(s.contains(" ")) {
+                    for(int i = 1; i < charArr.length; i++) {
+                        if(charArr[i-1] == ' ' && charArr[i] != ' ') {
+                            charArr[i] = Character.toUpperCase(charArr[i]);
+                        }
+                    }
+                }
+            newString = new String(charArr);
+            }
+        else {
+            newString = s;
+        }
+
+        return newString;
+    }
+
 }

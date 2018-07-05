@@ -15,14 +15,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import serhanmd.basicweatherapp.JSONArrayExtractor;
-import serhanmd.basicweatherapp.MainPage;
 import serhanmd.basicweatherapp.R;
 import serhanmd.basicweatherapp.WeatherData.Data;
 import static serhanmd.basicweatherapp.WeatherUtils.*;
 
 public class CurrentDay extends Fragment {
     private final String TAG = "MoLog:";
-    //private View view;
     private TextView changeTemp;
     private TextView changeCity;
     private TextView changeCondition;
@@ -37,7 +35,7 @@ public class CurrentDay extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG,"CurrentDay Started.");
+        Log.d(TAG,"CurrentDay Started."); //CHANGE THIS
         View view = inflater.inflate(R.layout.current_day_layout, container, false);
         changeTemp =  view.findViewById(R.id.tempValue);
         changeCondition = view.findViewById(R.id.condText);
@@ -73,8 +71,7 @@ public class CurrentDay extends Fragment {
         Picasso.get().load("http://openweathermap.org/img/w/" + data.getList().get(listNum).getWeather().get(0).getIcon()  + ".png").into(changeIcon);
         changeCondition.setText(data.getList().get(listNum).getWeather().get(0).getMain());
         changeTemp.setText(""+tmp + " " + (char) 0x00B0+"C");
-        changeDescription.setText(data.getList().get(listNum).getWeather().get(0).getDescription());
+        changeDescription.setText(capitalizeEveryWord(data.getList().get(listNum).getWeather().get(0).getDescription()));
         changeDate.setText(formatDate(data.getList().get(listNum).getDtTxt().substring(0,10)));
-
     }
 }
