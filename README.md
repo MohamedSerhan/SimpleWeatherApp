@@ -6,10 +6,11 @@ A simple weather application whose purpose is to teach me how to use web service
 - [x] Create a polished README file
 - [x] Simple UI  
 - [x] OpenWeatherMap web service integration
-- [ ] Add a refresh button that refreshes the weather data
-- [ ] Scroll side to side to see different days of weather
+- [x] Add a refresh button that refreshes the weather data
+- [x] Scroll side to side to see different days of weather
 - [ ] Extra features to allow user more options in choosing city
-- [ ] UI improvements
+- [ ] Switch between Celsius and Fahrenheit
+- [x] UI improvements
 
 ## Created by ##  
 <b>Mohamed Serhan</b>  
