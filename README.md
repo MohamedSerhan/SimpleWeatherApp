@@ -1,6 +1,9 @@
 # SimpleWeatherApp #  
 A simple weather application whose purpose is to teach me how to use web services in Android Development.
 
+### Current Version: v0.7 ###
+![Alt text](/Screenshots/SimpleWeatherAppV0.7.PNG?raw=true "Version 0.7")
+
 ## Plan ##  
 - [x] Begin Project 
 - [x] Create a polished README file
